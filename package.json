@@ -1,0 +1,42 @@
+{
+  "name": "bps",
+  "version": "0.0.1",
+  "repository": "https://github.com/ginkoid/bps",
+  "license": "MIT",
+  "dependencies": {
+    "babel-loader": "^7.1.2",
+    "cheerio": "^1.0.0-rc.2",
+    "material-ui": "^1.0.0-beta.30",
+    "material-ui-icons": "^1.0.0-beta.17",
+    "netlify-lambda": "^0.1.1",
+    "react": "^16.1.0",
+    "react-dom": "^16.1.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "^1.1.0",
+    "request": "^2.83.0"
+  },
+  "scripts": {
+    "start": "./node_modules/.bin/react-scripts start",
+    "start:lambda": "./node_modules/.bin/netlify-lambda serve src/lambda/routes",
+    "build": "./node_modules/.bin/react-scripts build",
+    "build:env": "echo {\\\"PS_SERVER\\\":\\\"$PS_SERVER\\\"} > ./src/lambda/util/env.json",
+    "build:lambda": "./node_modules/.bin/netlify-lambda build src/lambda/routes",
+    "test": "./node_modules/.bin/react-scripts test --env=jsdom"
+  },
+  "proxy": {
+    "/.netlify/functions": {
+      "target": "http://localhost:9000",
+      "pathRewrite": {
+        "^/\\.netlify/functions": ""
+      }
+    }
+  },
+  "devDependencies": {
+    "eslint": "^4.16.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.0"
+  }
+}
