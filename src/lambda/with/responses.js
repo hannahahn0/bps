@@ -15,10 +15,15 @@ export default Object.freeze({
         code: '0-0',
         human: 'The login is successful.',
     },
-    badLogin: {
+    successInfo: {
+        status: 200,
+        code: '0-1',
+        human: 'Info retreived successfuly.',
+    },
+    passwordWrong: {
         status: 401,
         code: '2-0',
-        human: 'Either your username or password is incorrect.',
+        human: 'The password is incorrect.',
     },
     wrongMethod: {
         status: 405,
@@ -50,9 +55,24 @@ export default Object.freeze({
         code: '1-0',
         human: 'An internal error has occurred. Try again later.',
     },
-    connectionError: {
-        status: 503,
-        code: '1-1',
-        human: 'Could not connect to the server. Try again later.',
+    googServerError: {
+        status: 502,
+        code: '3-1',
+        human: 'The Google server username server returned an error.',
+    },
+    accountMissing: {
+        status: 401,
+        code: '2-1',
+        human: 'The account was not found.',
+    },
+    tokenWrong: {
+        status: 401,
+        code: '2-2',
+        human: 'The credentials provided are incorrect.',
+    },
+    noAuth: {
+        status: 400,
+        code: '2-3',
+        human: 'The Bearer token is missing.',
     },
 })

@@ -94,13 +94,12 @@ export default withStyles({
             this.setState({
                 error: error.message,
                 shaking: true,
+                loading: false,
             })
             setTimeout(() => this.setState({
                 shaking: false,
             }), 800)
-        }).then(() => this.setState({
-            loading: false,
-        }))
+        })
     }
 
     render() {

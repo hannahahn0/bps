@@ -1,3 +1,5 @@
+import { getToken } from './auth'
+
 const aborter = () => ({
     abort() {
         this.aborted = true
@@ -10,12 +12,14 @@ export default async ({
     data,
     endpoint,
     abort = {},
+    includeToken,
 }) => { // eslint-disable-line consistent-return
     try {
         const fetchResult = await fetch(`/.netlify/functions/${endpoint}`, {
             method: type,
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: includeToken ? `Bearer ${getToken()}` : undefined,
             },
             body: data !== undefined ? JSON.stringify(data) : undefined,
         })

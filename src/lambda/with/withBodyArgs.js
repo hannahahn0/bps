@@ -1,5 +1,6 @@
 export default (args, wrapped) => (evt, ctx, cb) => {
-    if (!args.every(arg => evt.body[arg] !== undefined)) {
+    if (!Object.keys(args)
+        .every(arg => typeof evt.body[arg] === args[arg])) { // eslint-disable-line valid-typeof
         cb('paramsMissing')
         return
     }
