@@ -6,6 +6,9 @@ import Button from 'material-ui/Button'
 import Grid from 'material-ui/Grid'
 import Login from './Login'
 import Info from './Info'
+import Settings from './Settings'
+import Grades from './Grades'
+import Nav from './Nav'
 import { hasToken } from './auth'
 
 const NotFound = withStyles({
@@ -73,20 +76,24 @@ export default withStyles({
         transform: 'translate(-50%, 0)',
     },
 })(({ classes }) => (
-    <div className={classes.root}>
-        <div className={classes.contentRoot}>
-            <Grid container>
-                <Grid item xs={12} sm={10} md={8} lg={6} className={classes.content}>
-                    <Router>
+    <Router>
+        <div className={classes.root}>
+            <div className={classes.contentRoot}>
+                <Grid container>
+                    <Grid item xs={12} sm={10} md={8} lg={6} className={classes.content}>
                         <Switch>
                             <Route path="/" exact component={RootRedir} />
                             <PublicRoute path="/login" component={Login} />
                             <PrivateRoute path="/info" component={Info} />
+                            <PrivateRoute path="/settings" component={Settings} />
+                            <PrivateRoute path="/grades" component={Grades} />
                             <Route path="/" component={NotFound} />
                         </Switch>
-                    </Router>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </div>
+            <Route path="/" component={Nav} />
         </div>
-    </div>
+    </Router>
+
 ))

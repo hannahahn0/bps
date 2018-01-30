@@ -1,18 +1,8 @@
 import React from 'react'
 import withStyles from 'material-ui/styles/withStyles'
 import Card, { CardContent } from 'material-ui/Card'
-import { Link } from 'react-router-dom'
-import Button from 'material-ui/Button'
-import { logOut } from './auth'
+import TextLoad from './TextLoad'
 import request, { aborter } from './request'
-
-const BlurredText = withStyles({
-    blur: {
-        filter: 'blur(6px)',
-    },
-})(({ len, classes }) => (
-    <span className={classes.blur}>{'2'.repeat(len)}</span>
-))
 
 export default withStyles({
     root: {
@@ -42,9 +32,15 @@ export default withStyles({
     content: {
         paddingBottom: '16px !important',
     },
+    error: {
+        color: '#f44336',
+        textAlign: 'center',
+    },
 })(class extends React.Component {
     state = {
         info: 0,
+        error: null,
+        cached: false,
     }
 
     componentDidMount() {
@@ -52,55 +48,58 @@ export default withStyles({
             endpoint: 'info',
             includeToken: true,
             aborter: this.aborter,
-        }).then((({ data }) => this.setState({
+            cached: true,
+        }).then(this.aborter.abortCheck((({ data: { data }, cached }) => this.setState({
             info: data,
-        })), error => this.setState({
+            cached,
+        }))), this.aborter.abortCheck(({ error, cached }) => this.setState({
             error,
-        }))
+            cached,
+        })))
+    }
+
+    componentWillUnmount() {
+        this.aborter.abort()
     }
 
     aborter = aborter()
 
     render() {
-        const { state: { info }, props: { classes } } = this
+        const { state: { info, error, cached }, props: { classes } } = this
         return (
             <Card className={classes.root}>
                 <CardContent className={classes.content}>
-                    <h2 className={classes.name}>
-                        {
-                            info.givenName || (
-                                <React.Fragment>
-                                    <BlurredText len={5} />
-                                    {' '}
-                                    <BlurredText len={5} />
-                                </React.Fragment>
-                            )
-                        } {
-                            info.surName || <BlurredText len={5} />
-                        }
-                    </h2>
-                    <h2 className={classes.id}>#{info.id || <BlurredText len={7} />}</h2>
-                    <div className={classes.spacer} />
-                    <h3>
-                        <span className={classes.label}>Grade: </span>
-                        {info.grade || <BlurredText len={1} />}
-                    </h3>
-                    <h3>
-                        <span className={classes.label}>Team: </span>
-                        {info.team || <BlurredText len={7} />}
-                    </h3>
-                    <h3 className={classes.username}>
-                        {info.username || <BlurredText len={8} />}
-                    </h3>
-                    <h3>
-                        <span className={classes.label}>Homeroom: </span>
-                        {info.homeroom || <BlurredText len={5} />}
-                    </h3>
-                    <Link to="/login">
-                        <Button onClick={logOut}>
-                            Log Out
-                        </Button>
-                    </Link>
+                    {error ? (
+                        <h2 className={classes.error}>{error.message}</h2>
+                    ) : (
+                        <React.Fragment>
+                            <h2 className={classes.name}>
+                                <TextLoad len={10} text={info.givenName} noLoad={cached} />
+                                {' '}
+                                <TextLoad len={5} text={info.surName} noLoad={cached} />
+                            </h2>
+                            <h2 className={classes.id}>
+                                #
+                                <TextLoad len={7} text={info.id} noLoad={cached} />
+                            </h2>
+                            <div className={classes.spacer} />
+                            <h3>
+                                <span className={classes.label}>Grade: </span>
+                                <TextLoad len={1} text={info.grade} noLoad={cached} />
+                            </h3>
+                            <h3>
+                                <span className={classes.label}>Team: </span>
+                                <TextLoad len={8} text={info.team} noLoad={cached} />
+                            </h3>
+                            <h3 className={classes.username}>
+                                <TextLoad len={8} text={info.username} noLoad={cached} />
+                            </h3>
+                            <h3>
+                                <span className={classes.label}>Homeroom: </span>
+                                <TextLoad len={5} text={info.homeroom} noLoad={cached} />
+                            </h3>
+                        </React.Fragment>
+                    )}
                 </CardContent>
             </Card>
         )

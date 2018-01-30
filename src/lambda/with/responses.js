@@ -20,6 +20,11 @@ export default Object.freeze({
         code: '0-1',
         human: 'Info retreived successfuly.',
     },
+    successGrades: {
+        status: 200,
+        code: '0-2',
+        numan: 'Grades retreived successfully.',
+    },
     passwordWrong: {
         status: 401,
         code: '2-0',

@@ -21,7 +21,7 @@ const handler = withApiCb(withMethod('POST', withJsonParse(withBodyArgs({ userna
         json: {
             email: {
                 Input: 'EmailAddress',
-                EmailAddress: `${username}@mtlstudents.net`,
+                EmailAddress: `${username}@${env.STUDENT_EMAIL_DOMAIN}`,
             },
         },
     }, (googErr, googRes, googBody) => {

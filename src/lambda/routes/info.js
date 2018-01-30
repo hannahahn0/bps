@@ -37,7 +37,7 @@ const handler = withApiCb(withMethod('GET', withToken((evt, ctx, cb) => {
                 grade: parseInt(info[2], 10),
                 homeroom: info[3],
                 email: info[4],
-                username: info[4].replace('@mtlstudents.net', ''),
+                username: info[4].replace(`@${env.STUDENT_EMAIL_DOMAIN}`, ''),
                 team: info[5],
             })
         } catch (e) {

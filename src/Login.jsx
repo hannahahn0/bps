@@ -5,7 +5,7 @@ import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import LinearProgress from 'material-ui/Progress/LinearProgress'
 import { Redirect } from 'react-router-dom'
-import request, { aborter } from './request'
+import request, { aborter, clearCache } from './request'
 import { setToken } from './auth'
 
 export default withStyles({
@@ -60,6 +60,10 @@ export default withStyles({
         loading: false,
     }
 
+    componentWillMount() {
+        clearCache()
+    }
+
     componentWillUnmount() {
         this.aborter.abort()
     }
@@ -84,22 +88,24 @@ export default withStyles({
             endpoint: 'login',
             data: { username: this.state.username, password: this.state.password },
             aborter: this.aborter,
-        }).then(({ data: { token } }) => {
+        }).then(this.aborter.abortCheck(({ data: { data: { token } } }) => {
             setToken(token)
             this.setState({
                 success: true,
             })
-        }, (error) => {
+        }), this.aborter.abortCheck((error) => {
+            this.setState({
+                loading: false,
+            })
             if (this.state.shaking) return
             this.setState({
                 error: error.message,
                 shaking: true,
-                loading: false,
             })
             setTimeout(() => this.setState({
                 shaking: false,
             }), 800)
-        })
+        }))
     }
 
     render() {
