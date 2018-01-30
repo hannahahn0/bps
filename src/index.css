@@ -1,0 +1,22 @@
+/* roboto-regular - latin */
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Roboto'), local('Roboto-Regular'),
+        url(./fonts/roboto.woff2) format('woff2'),
+        url(./fonts/roboto.woff) format('woff');
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background: #2196f3;
+    overflow: hidden;
+    color: #2b3a4e;
+    font-family: 'Roboto', 'Arial', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
