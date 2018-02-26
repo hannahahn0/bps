@@ -1,4 +1,4 @@
 [build]
-  Command = "npm run build && npm run build:env && npm run build:lambda"
+  Command = "yarn build"
   Functions = "lambda"
   Publish = "build"

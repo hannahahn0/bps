@@ -24,14 +24,20 @@ export default withStyles(theme => ({
     },
     period: {
         textAlign: 'left',
-        background: 'white',
         position: 'relative',
-        zIndex: 999,
         paddingLeft: 10,
     },
     course: {
-        right: 25,
         position: 'absolute',
+        left: 170,
+        width: 'calc(100% - 186px)',
+    },
+    clip: {
+        whiteSpace: 'nowrap',
+        textOverflow: 'clip',
+        display: 'block',
+        overflow: 'hidden',
+        width: '100%',
     },
     headerText: {
         color: '#616161',
@@ -110,7 +116,9 @@ export default withStyles(theme => ({
                                     </span>
                                     <span className={classes.course}>
                                         <TextLoad
-                                            len={12}
+                                            textClasses={classes.clip}
+                                            loadClasses={classes.clip}
+                                            len={15}
                                             text={grade.course}
                                             noLoad={cached}
                                         />

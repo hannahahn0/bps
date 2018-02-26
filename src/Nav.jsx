@@ -9,18 +9,14 @@ import { hasToken } from './auth'
 
 const NavButton = ({ value, classes, ...rest }) => (
     <Link to={value} tabIndex={-1}>
-        <BottomNavigationAction {...rest} value={value} className={`${classes.navButton} ${classes.navButtonSm}`} />
+        <BottomNavigationAction {...rest} value={value} className={classes.navButton} />
     </Link>
 )
 
-const Nav = withStyles(theme => ({
+export default withStyles({
     navButton: {
-        width: 160,
-    },
-    [theme.breakpoints.down('xs')]: {
-        navButtonSm: {
-            width: 130,
-        },
+        width: '33vw',
+        maxWidth: 200,
     },
     root: {
         position: 'absolute',
@@ -28,7 +24,7 @@ const Nav = withStyles(theme => ({
         left: 0,
         width: '100vw',
     },
-}))(({ classes, location: { pathname } }) => {
+})(({ classes, location: { pathname } }) => {
     if (!hasToken()) {
         return null
     }
@@ -44,5 +40,3 @@ const Nav = withStyles(theme => ({
         </BottomNavigation>
     )
 })
-
-export default Nav

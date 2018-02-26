@@ -70,14 +70,16 @@ export default ({
                 })
             }
         }
-        const reject = (rejData) => {
+        const reject = ({ human: rejData, code }) => {
             const promRejData = Error(rejData)
             promRejData.cached = false
+            promRejData.code = code
             promReject(promRejData)
             if (cached) {
-                const cachedRromRejData = Error(rejData)
-                cachedRromRejData.cached = true
-                cachedReject(cachedRromRejData)
+                const cachedPromRejData = Error(rejData)
+                cachedPromRejData.cached = true
+                cachedPromRejData.code = code
+                cachedReject(cachedPromRejData)
             }
         }
         try {
@@ -91,11 +93,12 @@ export default ({
             })
             const jsonResult = await fetchResult.json()
             if (!jsonResult.code.startsWith('0-')) {
-                reject(jsonResult.human)
+                reject(jsonResult)
+                return
             }
             resolve(jsonResult)
         } catch ({ message }) {
-            reject(message || 'Could not connect to the server. Try again later.')
+            reject({ message: message || 'Could not connect to the server. Try again later.', code: '2-4' })
         }
     })
 }

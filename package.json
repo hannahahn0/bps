@@ -2,10 +2,12 @@
   "name": "bps",
   "version": "0.0.1",
   "repository": "https://github.com/ginkoid/bps",
+  "author": "ginkoid",
   "license": "MIT",
   "dependencies": {
     "babel-loader": "^7.1.2",
     "cheerio": "^1.0.0-rc.2",
+    "concurrently": "^3.5.1",
     "material-ui": "^1.0.0-beta.30",
     "material-ui-icons": "^1.0.0-beta.17",
     "netlify-lambda": "^0.1.1",
@@ -13,15 +15,17 @@
     "react-dom": "^16.1.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "^1.1.0",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "validator": "^9.4.0"
   },
   "scripts": {
-    "start": "./node_modules/.bin/react-scripts start",
+    "start": "yarn build:env && \"./node_modules/.bin/concurrently\" -p \"[{name}]\" -n \"LAMBDA,REACT\" -c \"cyan.bold,red.bold\" \"yarn start:lambda\" \"yarn start:react\"",
+    "start:react": "./node_modules/.bin/react-scripts start",
     "start:lambda": "./node_modules/.bin/netlify-lambda serve src/lambda/routes",
-    "build": "./node_modules/.bin/react-scripts build",
-    "build:env": "echo {\\\"PS_SERVER\\\":\\\"$PS_SERVER\\\",\\\"STUDENT_EMAIL_DOMAIN\\\":\\\"$STUDENT_EMAIL_DOMAIN\\\"} > ./src/lambda/util/env.json",
-    "build:lambda": "./node_modules/.bin/netlify-lambda build src/lambda/routes",
-    "test": "./node_modules/.bin/react-scripts test --env=jsdom"
+    "build": "yarn build:env && \"./node_modules/.bin/concurrently\" -p \"[{name}]\" -n \"LAMBDA,REACT\" -c \"cyan.bold,red.bold\" \"yarn build:lambda\" \"yarn build:react\"",
+    "build:react": "./node_modules/.bin/react-scripts build",
+    "build:env": "node ./build-env.js",
+    "build:lambda": "./node_modules/.bin/netlify-lambda build src/lambda/routes"
   },
   "proxy": {
     "/.netlify/functions": {

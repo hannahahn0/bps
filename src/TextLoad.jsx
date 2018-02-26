@@ -21,14 +21,46 @@ export default withStyles({
             filter: 'blur(0px)',
         },
     },
-})(({
-    text,
-    len,
-    noLoad,
-    classes,
-}) => (
-    <React.Fragment>
-        {!noLoad && <span className={`${text ? classes.fadeOut : ''} ${classes.blur}`}>{'2'.repeat(len)}</span>}
-        {text && <span className={noLoad ? '' : classes.blurIn}>{text}</span>}
-    </React.Fragment>
-))
+})(class extends React.Component {
+    state = {
+        blurDone: false,
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.text && this.props.text !== nextProps.text) {
+            this.blurRemoveTimeout = setTimeout(() => this.setState({
+                blurDone: true,
+            }), 330)
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.blurRemoveTimeout) {
+            clearTimeout(this.blurRemoveTimeout)
+        }
+    }
+
+    blurRemoveTimeout = null
+
+    render() {
+        const {
+            props: {
+                text,
+                len,
+                noLoad,
+                classes,
+                loadClasses = '',
+                textClasses = '',
+            },
+            state: {
+                blurDone,
+            },
+        } = this
+        return (
+            <React.Fragment>
+                {!noLoad && !blurDone && <span className={`${text ? classes.fadeOut : ''} ${classes.blur} ${loadClasses}`}>{'2'.repeat(len)}</span>}
+                {text && <span className={`${noLoad ? '' : classes.blurIn} ${textClasses}`}>{text}</span>}
+            </React.Fragment>
+        )
+    }
+})

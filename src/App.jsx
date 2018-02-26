@@ -62,6 +62,8 @@ export default withStyles({
         transformStyle: 'preserve-3d',
         height: '100vh',
         width: '100vw',
+        overflowY: 'auto',
+        overflowX: 'hidden',
     },
     contentRoot: {
         position: 'absolute',
@@ -69,6 +71,7 @@ export default withStyles({
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 'calc(100% - 10px)',
+        maxHeight: '100vh',
     },
     content: {
         position: 'relative',
@@ -95,5 +98,4 @@ export default withStyles({
             <Route path="/" component={Nav} />
         </div>
     </Router>
-
 ))

@@ -1,5 +1,6 @@
 import request from 'request'
 import cheerio from 'cheerio'
+import isEmail from 'validator/lib/isEmail'
 import withApiCb from '../with/withApiCb'
 import withMethod from '../with/withMethod'
 import withJsonParse from '../with/withJsonParse'
@@ -12,6 +13,11 @@ const loginEndpoint = `${env.PS_SERVER}/guardian/home.html`
 const handler = withApiCb(withMethod('POST', withJsonParse(withBodyArgs({ username: 'string', password: 'string' }, (evt, ctx, cb) => {
     const username = evt.body.username.trim()
     const password = evt.body.password.trim()
+    const userEmail = `${username}@${env.STUDENT_EMAIL_DOMAIN}`
+    if (!isEmail(userEmail)) {
+        cb('accountMissing')
+        return
+    }
     request({
         method: 'POST',
         url: 'https://accounts.google.com/InputValidator',
@@ -21,7 +27,7 @@ const handler = withApiCb(withMethod('POST', withJsonParse(withBodyArgs({ userna
         json: {
             email: {
                 Input: 'EmailAddress',
-                EmailAddress: `${username}@${env.STUDENT_EMAIL_DOMAIN}`,
+                EmailAddress: userEmail,
             },
         },
     }, (googErr, googRes, googBody) => {

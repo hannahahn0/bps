@@ -23,7 +23,7 @@ export default Object.freeze({
     successGrades: {
         status: 200,
         code: '0-2',
-        numan: 'Grades retreived successfully.',
+        human: 'Grades retreived successfully.',
     },
     passwordWrong: {
         status: 401,
@@ -63,7 +63,7 @@ export default Object.freeze({
     googServerError: {
         status: 502,
         code: '3-1',
-        human: 'The Google server username server returned an error.',
+        human: 'The Google server returned an error.',
     },
     accountMissing: {
         status: 401,
@@ -79,5 +79,10 @@ export default Object.freeze({
         status: 400,
         code: '2-3',
         human: 'The Bearer token is missing.',
+    },
+    noConnect: {
+        status: 400,
+        code: '2-4',
+        human: 'Could not connect to the server. Try again later.',
     },
 })

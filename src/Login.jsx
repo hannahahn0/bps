@@ -97,6 +97,13 @@ export default withStyles({
             this.setState({
                 loading: false,
             })
+            if (error.code === '2-1') {
+                this.usernameInputRef.focus()
+                this.usernameInputRef.select()
+            } else if (error.code === '2-0') {
+                this.passwordInputRef.focus()
+                this.passwordInputRef.select()
+            }
             if (this.state.shaking) return
             this.setState({
                 error: error.message,
@@ -106,6 +113,14 @@ export default withStyles({
                 shaking: false,
             }), 800)
         }))
+    }
+
+    handlePasswordInputRef = (el) => {
+        this.passwordInputRef = el
+    }
+
+    handleUsernameInputRef = (el) => {
+        this.usernameInputRef = el
     }
 
     render() {
@@ -143,6 +158,7 @@ export default withStyles({
                             required
                             type="text"
                             InputLabelProps={{ required: false }}
+                            inputRef={this.handleUsernameInputRef}
                         />
                         <TextField
                             onChange={handlePasswordChange}
@@ -154,6 +170,7 @@ export default withStyles({
                             type="password"
                             InputLabelProps={{ required: false }}
                             className={classes.password}
+                            inputRef={this.handlePasswordInputRef}
                         />
                         {error ? (
                             <h4 className={classes.error}>{error}</h4>
