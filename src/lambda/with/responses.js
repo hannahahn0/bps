@@ -42,17 +42,17 @@ export default Object.freeze({
     },
     jsonMalformed: {
         status: 400,
-        code: '4-0',
+        code: '4-1',
         human: 'The JSON provided is malformed.',
     },
     wrongContentType: {
         status: 400,
-        code: '4-1',
+        code: '4-2',
         human: 'The content type header in the request did not specify JSON.',
     },
     paramsMissing: {
         status: 400,
-        code: '4-2',
+        code: '4-3',
         human: 'The necessary parameters for this endpoint were not provided.',
     },
     internalError: {
@@ -82,7 +82,7 @@ export default Object.freeze({
     },
     noConnect: {
         status: 400,
-        code: '2-4',
+        code: '4-4',
         human: 'Could not connect to the server. Try again later.',
     },
 })

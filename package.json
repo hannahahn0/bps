@@ -1,6 +1,6 @@
 {
   "name": "bps",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": "https://github.com/ginkoid/bps",
   "author": "ginkoid",
   "license": "MIT",
@@ -10,7 +10,7 @@
     "concurrently": "^3.5.1",
     "material-ui": "^1.0.0-beta.30",
     "material-ui-icons": "^1.0.0-beta.17",
-    "netlify-lambda": "^0.1.1",
+    "netlify-lambda": "^0.2",
     "react": "^16.1.0",
     "react-dom": "^16.1.0",
     "react-router-dom": "^4.2.2",

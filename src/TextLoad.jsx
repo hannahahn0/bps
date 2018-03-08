@@ -26,11 +26,15 @@ export default withStyles({
         blurDone: false,
     }
 
+    componentDidMount() {
+        if (this.props.text) {
+            this.blurRemoveTimeout = setTimeout(this.blurRemoveTimeoutFunc, 330)
+        }
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.text && this.props.text !== nextProps.text) {
-            this.blurRemoveTimeout = setTimeout(() => this.setState({
-                blurDone: true,
-            }), 330)
+            this.blurRemoveTimeout = setTimeout(this.blurRemoveTimeoutFunc, 330)
         }
     }
 
@@ -39,6 +43,10 @@ export default withStyles({
             clearTimeout(this.blurRemoveTimeout)
         }
     }
+
+    blurRemoveTimeoutFunc = () => this.setState({
+        blurDone: true,
+    })
 
     blurRemoveTimeout = null
 

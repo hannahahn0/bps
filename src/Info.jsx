@@ -3,6 +3,7 @@ import withStyles from 'material-ui/styles/withStyles'
 import Card, { CardContent } from 'material-ui/Card'
 import TextLoad from './TextLoad'
 import request, { aborter } from './request'
+import RequestErrorHandler from './RequestErrorHandler'
 
 export default withStyles({
     root: {
@@ -52,9 +53,10 @@ export default withStyles({
         }).then(this.aborter.abortCheck((({ data: { data }, cached }) => this.setState({
             info: data,
             cached,
-        }))), this.aborter.abortCheck(({ error, cached }) => this.setState({
-            error,
+        }))), this.aborter.abortCheck(({ code, message, cached }) => this.setState({
+            error: message,
             cached,
+            code,
         })))
     }
 
@@ -65,12 +67,17 @@ export default withStyles({
     aborter = aborter()
 
     render() {
-        const { state: { info, error, cached }, props: { classes } } = this
+        const {
+            state: {
+                info, error, cached, code,
+            },
+            props: { classes },
+        } = this
         return (
             <Card className={classes.root}>
                 <CardContent className={classes.content}>
                     {error ? (
-                        <h2 className={classes.error}>{error.message}</h2>
+                        <h2 className={classes.error}>{error}</h2>
                     ) : (
                         <React.Fragment>
                             <h2 className={classes.name}>
@@ -101,6 +108,7 @@ export default withStyles({
                         </React.Fragment>
                     )}
                 </CardContent>
+                <RequestErrorHandler code={code} />
             </Card>
         )
     }

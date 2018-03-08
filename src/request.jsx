@@ -83,14 +83,17 @@ export default ({
             }
         }
         try {
-            const fetchResult = await fetch(`/.netlify/functions/${endpoint}`, {
+            const fetchParams = {
                 method: type,
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: includeToken ? `Bearer ${getToken()}` : undefined,
                 },
                 body: data !== undefined ? JSON.stringify(data) : undefined,
-            })
+            }
+            if (includeToken) {
+                fetchParams.headers.Authorization = `Bearer ${getToken()}`
+            }
+            const fetchResult = await fetch(`/.netlify/functions/${endpoint}`, fetchParams)
             const jsonResult = await fetchResult.json()
             if (!jsonResult.code.startsWith('0-')) {
                 reject(jsonResult)
@@ -98,7 +101,7 @@ export default ({
             }
             resolve(jsonResult)
         } catch ({ message }) {
-            reject({ message: message || 'Could not connect to the server. Try again later.', code: '2-4' })
+            reject({ message: message || 'Could not connect to the server. Try again later.', code: '4-4' })
         }
     })
 }

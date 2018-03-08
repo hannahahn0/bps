@@ -4,15 +4,22 @@ import Card, { CardContent } from 'material-ui/Card'
 import Divider from 'material-ui/Divider'
 import request, { aborter } from './request'
 import TextLoad from './TextLoad'
+import RequestErrorHandler from './RequestErrorHandler'
 
 export default withStyles(theme => ({
     root: {
         textAlign: 'left',
     },
     content: {
-        paddingTop: 0,
-        paddingBottom: '6px !important',
+        paddingBottom: '16px !important',
         position: 'relative',
+    },
+    contentLoaded: {
+        paddingBottom: '0 !important',
+    },
+    table: {
+        position: 'relative',
+        bottom: 15,
     },
     error: {
         color: '#f44336',
@@ -76,9 +83,10 @@ export default withStyles(theme => ({
         }).then(this.aborter.abortCheck((({ data: { data }, cached }) => this.setState({
             grades: data,
             cached,
-        }))), this.aborter.abortCheck(({ error, cached }) => this.setState({
-            error,
+        }))), this.aborter.abortCheck(({ code, message, cached }) => this.setState({
+            error: message,
             cached,
+            code,
         })))
     }
 
@@ -89,46 +97,54 @@ export default withStyles(theme => ({
     aborter = aborter()
 
     render() {
-        const { props: { classes }, state: { grades, error, cached } } = this
+        const {
+            state: {
+                grades, error, cached, code,
+            },
+            props: { classes },
+        } = this
         return (
             <Card className={classes.root}>
-                <CardContent className={classes.content}>
-                    <div className={classes.grade}>
-                        <h4 className={`${classes.row} ${classes.headerText}`}>
-                            <span className={classes.period}>Period</span>
-                            <span className={classes.course}>Course</span>
-                        </h4>
-                    </div>
+                <CardContent className={`${classes.content} ${classes.contentLoaded}`}>
                     {error ? (
-                        <h2 className={classes.error}>{error.message}</h2>
+                        <h2 className={classes.error}>{error}</h2>
                     ) : (
-                        /* eslint-disable react/no-array-index-key */
-                        grades.map((grade, idx) => (
-                            <React.Fragment key={idx}>
-                                <Divider />
-                                <h4 className={classes.row}>
-                                    <span className={classes.period}>
-                                        <TextLoad
-                                            len={7}
-                                            text={grade.period}
-                                            noLoad={cached}
-                                        />
-                                    </span>
-                                    <span className={classes.course}>
-                                        <TextLoad
-                                            textClasses={classes.clip}
-                                            loadClasses={classes.clip}
-                                            len={15}
-                                            text={grade.course}
-                                            noLoad={cached}
-                                        />
-                                    </span>
+                        <div className={classes.table}>
+                            <div className={classes.grade}>
+                                <h4 className={`${classes.row} ${classes.headerText}`}>
+                                    <span className={classes.period}>Period</span>
+                                    <span className={classes.course}>Course</span>
                                 </h4>
-                            </React.Fragment>
-                        ))
-                        /* eslint-enable */
+                            </div>
+
+                            {grades.map((grade, idx) => (
+                                /* eslint-disable-next-line react/no-array-index-key */
+                                <React.Fragment key={idx}>
+                                    <Divider />
+                                    <h4 className={classes.row}>
+                                        <span className={classes.period}>
+                                            <TextLoad
+                                                len={7}
+                                                text={grade.period}
+                                                noLoad={cached}
+                                            />
+                                        </span>
+                                        <span className={classes.course}>
+                                            <TextLoad
+                                                textClasses={classes.clip}
+                                                loadClasses={classes.clip}
+                                                len={15}
+                                                text={grade.course}
+                                                noLoad={cached}
+                                            />
+                                        </span>
+                                    </h4>
+                                </React.Fragment>
+                            ))}
+                        </div>
                     )}
                 </CardContent>
+                <RequestErrorHandler code={code} />
             </Card>
         )
     }
