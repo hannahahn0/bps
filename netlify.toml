@@ -3,5 +3,5 @@
   Functions = "lambda"
   Publish = "build"
 [template.environment]
-  PS_SERVER = "PoweSchool server (https://ps.example.com)"
+  PS_SERVER = "PowerSchool server (https://ps.example.com)"
   STUDENT_EMAIL_DOMAIN = "Google Education domain (example.net)"
