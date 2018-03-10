@@ -1,6 +1,6 @@
 {
     "name": "bps",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "repository": "https://github.com/ginkoid/bps",
     "author": "ginkoid",
     "description": "The PowerSchool site is terrible. This project aims to fix that.",
