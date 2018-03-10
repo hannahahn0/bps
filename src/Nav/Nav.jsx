@@ -5,7 +5,7 @@ import BottomNavigation, { BottomNavigationAction } from 'material-ui/BottomNavi
 import InfoIcon from 'material-ui-icons/Info'
 import GradeIcon from 'material-ui-icons/Grade'
 import SettingsIcon from 'material-ui-icons/Settings'
-import { hasToken } from './auth'
+import { hasToken } from '../auth/auth'
 
 const NavButton = ({ value, classes, ...rest }) => (
     <Link to={value} tabIndex={-1}>

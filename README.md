@@ -1,6 +1,5 @@
 # bps
-A Better PowerSchool
-
+(Better PowerSchool)
 ## Premise
 
 The PowerSchool site is terrible. This project aims to fix that.

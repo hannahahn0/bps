@@ -6,14 +6,14 @@ export default withStyles({
         filter: 'blur(6px)',
     },
     blurIn: {
-        animation: 'blur-in 0.33s linear',
+        animation: 'bps-blur-in 0.33s linear',
     },
     fadeOut: {
         opacity: 0,
         transition: 'opacity 0.33s linear',
         position: 'absolute',
     },
-    '@keyframes blur-in': {
+    '@keyframes bps-blur-in': {
         '0%': {
             filter: 'blur(6px)',
         },
@@ -64,10 +64,19 @@ export default withStyles({
                 blurDone,
             },
         } = this
+        const textLoaded = text !== undefined
         return (
             <React.Fragment>
-                {!noLoad && !blurDone && <span className={`${text ? classes.fadeOut : ''} ${classes.blur} ${loadClasses}`}>{'2'.repeat(len)}</span>}
-                {text && <span className={`${noLoad ? '' : classes.blurIn} ${textClasses}`}>{text}</span>}
+                {!noLoad && !blurDone && (
+                    <span className={`${textLoaded ? classes.fadeOut : ''} ${classes.blur} ${loadClasses}`}>
+                        {'2'.repeat(len)}
+                    </span>
+                )}
+                {textLoaded && (
+                    <span className={`${noLoad ? '' : classes.blurIn} ${textClasses}`}>
+                        {text}
+                    </span>
+                )}
             </React.Fragment>
         )
     }

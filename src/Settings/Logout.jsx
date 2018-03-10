@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 import withStyles from 'material-ui/styles/withStyles'
 import Card, { CardContent } from 'material-ui/Card'
 import Button from 'material-ui/Button'
-import { logOut } from './auth'
+import { logOut } from '../auth/auth'
 
 export default withStyles({
     root: {

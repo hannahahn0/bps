@@ -1,9 +1,9 @@
 import React from 'react'
 import withStyles from 'material-ui/styles/withStyles'
 import Card, { CardContent } from 'material-ui/Card'
-import TextLoad from './TextLoad'
-import request, { aborter } from './request'
-import RequestErrorHandler from './RequestErrorHandler'
+import TextLoad from '../TextLoad/TextLoad'
+import request, { aborter } from '../request/request'
+import RequestErrorHandler from '../request/RequestErrorHandler'
 
 export default withStyles({
     root: {
@@ -50,9 +50,10 @@ export default withStyles({
             includeToken: true,
             aborter: this.aborter,
             cached: true,
-        }).then(this.aborter.abortCheck((({ data: { data }, cached }) => this.setState({
+        }).then(this.aborter.abortCheck((({ data: { data, code }, cached }) => this.setState({
             info: data,
             cached,
+            code,
         }))), this.aborter.abortCheck(({ code, message, cached }) => this.setState({
             error: message,
             cached,

@@ -1,4 +1,4 @@
-import { getToken } from './auth'
+import { getToken } from '../auth/auth'
 
 const aborter = () => {
     let aborted = false

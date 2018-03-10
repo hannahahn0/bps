@@ -5,8 +5,8 @@ import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import LinearProgress from 'material-ui/Progress/LinearProgress'
 import { Redirect } from 'react-router-dom'
-import request, { aborter, clearCache } from './request'
-import { setToken } from './auth'
+import request, { aborter, clearCache } from '../request/request'
+import { setToken } from '../auth/auth'
 
 export default withStyles({
     root: {

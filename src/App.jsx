@@ -4,12 +4,12 @@ import withStyles from 'material-ui/styles/withStyles'
 import Card, { CardContent } from 'material-ui/Card'
 import Button from 'material-ui/Button'
 import Grid from 'material-ui/Grid'
-import Login from './Login'
-import Info from './Info'
-import Settings from './Settings'
-import Grades from './Grades'
-import Nav from './Nav'
-import { hasToken } from './auth'
+import Login from './Login/Login'
+import Info from './Info/Info'
+import Settings from './Settings/Settings'
+import Grades from './Grades/Grades'
+import Nav from './Nav/Nav'
+import { hasToken } from './auth/auth'
 
 const NotFound = withStyles({
     root: {
@@ -62,16 +62,21 @@ export default withStyles({
         transformStyle: 'preserve-3d',
         height: '100vh',
         width: '100vw',
-        overflowY: 'auto',
-        overflowX: 'hidden',
     },
     contentRoot: {
         position: 'absolute',
-        top: '43%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
+        top: 5,
+        left: 5,
+        height: 'calc(100% - 66px)',
         width: 'calc(100% - 10px)',
-        maxHeight: '100vh',
+        overflowY: 'auto',
+        overflowX: 'hidden',
+    },
+    contentScroll: {
+        position: 'relative',
+        top: '50%',
+        transform: 'translate(0, -50%)',
+        maxHeight: '100%',
     },
     content: {
         position: 'relative',
@@ -82,7 +87,7 @@ export default withStyles({
     <Router>
         <div className={classes.root}>
             <div className={classes.contentRoot}>
-                <Grid container>
+                <Grid container className={classes.contentScroll}>
                     <Grid item xs={12} sm={10} md={8} lg={6} className={classes.content}>
                         <Switch>
                             <Route path="/" exact component={RootRedir} />

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import { logOut } from './auth'
+import { logOut } from '../auth/auth'
 
 const unauthCode = '2-2'
 
