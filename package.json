@@ -32,7 +32,7 @@
         "start:react": "react-scripts start",
         "start:lambda": "netlify-lambda serve src/lambda/routes",
         "build": "yarn build:env && concurrently -p \"[{name}]\" -n \"LAMBDA,REACT\" -c \"cyan.bold,red.bold\" \"yarn build:lambda\" \"yarn build:react\"",
-        "build:react": "react-scripts build",
+        "build:react": "react-scripts build && rm build/asset-manifest.json",
         "build:env": "node ./build-env.js",
         "build:lambda": "netlify-lambda build src/lambda/routes"
     },
