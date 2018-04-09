@@ -14,7 +14,10 @@ body {
     background: #2196f3;
     overflow: hidden;
     color: #2b3a4e;
-    font-family: 'Roboto', 'Arial', sans-serif;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.02em;
 }
 
 a {

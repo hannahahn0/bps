@@ -1,8 +1,8 @@
 import responses from './responses'
 
-export default wrapped => (evt, ctx, lambdaCb) => wrapped(evt, ctx, (result, data) => {
+const sendResponse = lambdaCb => (result, data = null) => {
     const response = responses[result]
-    return lambdaCb(null, {
+    lambdaCb(null, {
         statusCode: response.status,
         headers: {
             'Content-Type': 'application/json',
@@ -19,4 +19,13 @@ export default wrapped => (evt, ctx, lambdaCb) => wrapped(evt, ctx, (result, dat
             data,
         }),
     })
-})
+}
+
+export default wrapped => (evt, ctx, lambdaCb) => {
+    const cb = sendResponse(lambdaCb)
+    try {
+        wrapped(evt, ctx, cb)
+    } catch (e) {
+        cb('internalError')
+    }
+}

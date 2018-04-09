@@ -70,16 +70,16 @@ export default ({
                 })
             }
         }
-        const reject = ({ human: rejData, code }) => {
-            const promRejData = Error(rejData)
-            promRejData.cached = false
-            promRejData.code = code
-            promReject(promRejData)
+        const reject = ({ human = 'An internal error occurred. Try again later.', code = '1-0' }) => {
+            const promhuman = Error(human)
+            promhuman.cached = false
+            promhuman.code = code
+            promReject(promhuman)
             if (cached) {
-                const cachedPromRejData = Error(rejData)
-                cachedPromRejData.cached = true
-                cachedPromRejData.code = code
-                cachedReject(cachedPromRejData)
+                const cachedPromhuman = Error(human)
+                cachedPromhuman.cached = true
+                cachedPromhuman.code = code
+                cachedReject(cachedPromhuman)
             }
         }
         try {
@@ -93,7 +93,12 @@ export default ({
             if (includeToken) {
                 fetchParams.headers.Authorization = `Bearer ${getToken()}`
             }
-            const fetchResult = await fetch(`/.netlify/functions/${endpoint}`, fetchParams)
+            let fetchResult
+            try {
+                fetchResult = await fetch(`/.netlify/functions/${endpoint}`, fetchParams)
+            } catch (e) {
+                reject({ human: 'The server could not be connected to. Try again later.', code: '4-4' })
+            }
             const jsonResult = await fetchResult.json()
             if (!jsonResult.code.startsWith('0-')) {
                 reject(jsonResult)
@@ -101,7 +106,7 @@ export default ({
             }
             resolve(jsonResult)
         } catch ({ message }) {
-            reject({ message: message || 'Could not connect to the server. Try again later.', code: '4-4' })
+            reject({})
         }
     })
 }

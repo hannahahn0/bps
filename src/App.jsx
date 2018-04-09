@@ -1,61 +1,16 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Redirect, Link, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import withStyles from 'material-ui/styles/withStyles'
-import Card, { CardContent } from 'material-ui/Card'
-import Button from 'material-ui/Button'
 import Grid from 'material-ui/Grid'
+import NotFound from './route/NotFound'
+import PrivateRoute from './route/PrivateRoute'
+import PublicRoute from './route/PublicRoute'
+import RootRedir from './route/RootRedir'
 import Login from './Login/Login'
 import Info from './Info/Info'
 import Settings from './Settings/Settings'
 import Grades from './Grades/Grades'
 import Nav from './Nav/Nav'
-import { hasToken } from './auth/auth'
-
-const NotFound = withStyles({
-    root: {
-        textAlign: 'center',
-    },
-})(({ classes }) => (
-    <Card className={classes.root}>
-        <CardContent>
-            <h2>404</h2>
-            <h3>You seem a bit lost. Why not go to the main page?</h3>
-            <Link to={hasToken() ? '/info' : '/login'}>
-                <Button>Main Page</Button>
-            </Link>
-        </CardContent>
-    </Card>
-))
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route
-        {...rest}
-        render={props => (
-            hasToken() ? (
-                <Component {...props} />
-            ) : (
-                <Redirect to="/login" />
-            )
-        )}
-    />
-)
-
-const PublicRoute = ({ component: Component, ...rest }) => (
-    <Route
-        {...rest}
-        render={props => (
-            !hasToken() ? (
-                <Component {...props} />
-            ) : (
-                <Redirect to="/info" />
-            )
-        )}
-    />
-)
-
-const RootRedir = () => (
-    <Redirect to={hasToken() ? '/info' : '/login'} />
-)
 
 export default withStyles({
     root: {

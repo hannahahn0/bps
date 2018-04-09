@@ -141,7 +141,7 @@ export default withStyles(theme => ({
         return (
             <React.Fragment>
                 <Card className={classes.root}>
-                    <CardContent className={`${classes.content} ${classes.contentLoaded}`}>
+                    <CardContent className={`${classes.content} ${!error ? classes.contentLoaded : ''}`}>
                         {error ? (
                             <h2 className={classes.error}>{error}</h2>
                         ) : (

@@ -1,5 +1,5 @@
 export default wrapped => (evt, ctx, cb) => {
-    if (!evt.headers['content-type'].includes('application/json')) {
+    if (!evt.headers['content-type'] || !evt.headers['content-type'].includes('application/json')) {
         cb('wrongContentType')
         return
     }
