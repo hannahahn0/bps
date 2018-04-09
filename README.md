@@ -1,5 +1,5 @@
 # bps
-(Better PowerSchool)
+(**B**etter **P**ower**S**chool)
 ## Premise
 
 The PowerSchool site is terrible. This project aims to fix that.
@@ -12,9 +12,9 @@ The server scrapes the PowerSchool site and it's SOAP (:sob:), and provides a RE
 
 ## Deployment
 
-This project has been configured to be deployed on [Netlify](https://www.netlify.com). However, this project makes use of their server-side lambda functions, which are currently in a private beta. If you have access to those, you can click this button.
+This project has been configured to be deployed on [Netlify](https://www.netlify.com).
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ginkoid/bps)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https%3A%2F%2Fgithub.com%2Fginkoid%2Fbps)
 
 However, with a bit of finagling, you can also deploy this on any other platform. The lambda functions are in `src/lambda/routes`, and must be compiled with `yarn build:lambda` before being deployed. However, `yarn build:env` must be run before `build:lambda`.
 
